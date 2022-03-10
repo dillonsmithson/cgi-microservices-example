@@ -22,3 +22,7 @@ CREATE TABLE picture ( picture_id SERIAL PRIMARY KEY,
 					   picture_primary BOOLEAN NOT NULL,
 					   picture_description TEXT NOT NULL,
 					   picture_source TEXT NOT NULL );
+
+CREATE TABLE jwt ( jwt_username TEXT NOT NULL PRIMARY KEY,
+				   jwt_jwt TEXT NOT NULL,
+				   jwt_hash Integer NOT NULL )					   
