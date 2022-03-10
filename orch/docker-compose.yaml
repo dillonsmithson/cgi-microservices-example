@@ -1,0 +1,11 @@
+services:
+  ownercrud:
+    image: ownercrud
+    ports:
+      - "18080:8080"
+  orchestrate:
+    image: orchestrate
+    depends_on:
+      - "ownercrud"
+    ports:
+      - "28080:8080"
