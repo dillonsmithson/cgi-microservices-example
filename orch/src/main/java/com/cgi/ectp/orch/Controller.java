@@ -22,7 +22,7 @@ public class Controller{
 
     @PostMapping("/auth/authenticate")
     public String authenticate(@RequestBody final CredentialDTO pCredentialDTO) {
-        return authService.authenticate();
+        return authService.authenticate(pCredentialDTO);
     }
 
     @PostMapping("/auth/logout")
@@ -33,15 +33,17 @@ public class Controller{
     @GetMapping("/owner/{ownerId}")
     public OwnerDTO getOwner(
             @PathVariable("ownerId") final int pOwnerId,
-            @RequestHeader("Authorization") final String pToken) {
-
+            @RequestHeader("Authorization") final String pToken
+    ) {
         httpService.validateToken(pToken);
+
         return httpService.propagateFeignException(() -> ownerClient.read(pToken, pOwnerId));
     }
 
     @GetMapping("/")
     public Collection<OwnerDTO> getAll(@RequestHeader("Authorization") final String pToken) {
         httpService.validateToken(pToken);
+
         return httpService.propagateFeignException(() -> ownerClient.getAll(pToken));
     }
 }
