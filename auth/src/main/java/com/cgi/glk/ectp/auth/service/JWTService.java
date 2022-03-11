@@ -12,6 +12,9 @@ import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,16 +30,21 @@ public class JWTService {
                                                             "Ashley",   "ash");
 
     public Optional<String> forge(final CredentialDTO pCredentialDTO) {
-        if (!credentials.containsKey(pCredentialDTO.getUsername())) {
+        val _password = Optional.ofNullable(credentials.get(pCredentialDTO.getUsername()));
+
+        if (_password.isEmpty()) {
             return Optional.empty();
         }
-        if (!credentials.get(pCredentialDTO.getUsername()).equals(pCredentialDTO.getPassword())) {
+
+        if(!_password.get().equals(pCredentialDTO.getPassword())) {
             return Optional.empty();
         }
 
         val jwt = JWT.create()
                     .withIssuer("com.cgi.glk.ectp")
                     .withClaim("ownerPriv", "CRUD")
+                    .withClaim("username", pCredentialDTO.getUsername())
+                    .withExpiresAt(Date.from(LocalDateTime.now().plusMinutes(15L).atZone(ZoneId.systemDefault()).toInstant()))
                     .withJWTId(UUID.randomUUID().toString())
                     .sign(Algorithm.HMAC256(properties.getSecret()));
         try {
@@ -46,7 +54,7 @@ public class JWTService {
         }
         jwtRepository.save(JWTModel.of(pCredentialDTO.getUsername(), jwt));
 
-        return Optional.ofNullable(jwt); // This may change. 
+        return Optional.ofNullable(jwt); // This may change.
     }
 
     public boolean validate(final String pJWT) {
