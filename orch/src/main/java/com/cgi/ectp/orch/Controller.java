@@ -1,5 +1,6 @@
 package com.cgi.ectp.orch;
 
+import com.cgi.ectp.orch.dto.CredentialDTO;
 import com.cgi.ectp.orch.dto.OwnerDTO;
 import com.cgi.ectp.orch.client.OwnerClient;
 import com.cgi.ectp.orch.service.AuthService;
@@ -20,7 +21,7 @@ public class Controller{
     @Autowired private AuthService authService;
 
     @PostMapping("/auth/authenticate")
-    public String authenticate() {
+    public String authenticate(@RequestBody final CredentialDTO pCredentialDTO) {
         return authService.authenticate();
     }
 

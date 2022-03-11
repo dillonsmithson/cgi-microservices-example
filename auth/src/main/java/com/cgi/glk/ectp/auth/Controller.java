@@ -1,5 +1,6 @@
 package com.cgi.glk.ectp.auth;
 
+import com.cgi.glk.ectp.auth.dto.CredentialDTO;
 import com.cgi.glk.ectp.auth.service.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,8 +16,8 @@ public class Controller {
     @Autowired private JWTService jwtService;
 
     @PostMapping("/authenticate")
-    public String authenticate() {
-        return jwtService.forge();
+    public String authenticate(@RequestBody final CredentialDTO pCredentialDTO) {
+        return jwtService.forge(pCredentialDTO);
     }
 
     @PostMapping("/validate")
