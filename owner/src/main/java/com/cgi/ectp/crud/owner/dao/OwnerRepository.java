@@ -14,3 +14,12 @@ public interface OwnerRepository extends CrudRepository<OwnerModel, Integer> {
             nativeQuery = true  )
     List<OwnerModel> byName(final String pName);
 }
+/*
+CREATE TABLE owner ( owner_id SERIAL PRIMARY KEY,
+                     owner_name TEXT NOT NULL,
+                     owner_lang TEXT NOT NULL,
+                     owner_created TIMESTAMP WITH TIME ZONE,
+                     owner_createdby TEXT,
+                     owner_updated TIMESTAMP WITH TIME ZONE,
+                     owner_updatedby TEXT );
+ */

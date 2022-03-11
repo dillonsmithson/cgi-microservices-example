@@ -4,6 +4,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.cgi.ectp.orch.Properties;
 import com.cgi.ectp.orch.client.AuthClient;
+import com.cgi.ectp.orch.dto.CredentialDTO;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,8 @@ public class AuthService {
 
     private static final String BEARER = "Bearer ";
 
-    public String authenticate() {
-        return authClient.authenticate();
+    public String authenticate(final CredentialDTO pCredentialDTO) {
+        return authClient.authenticate(pCredentialDTO);
     }
 
     public void logout(final String pJWT) {

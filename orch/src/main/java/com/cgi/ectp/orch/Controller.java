@@ -1,5 +1,6 @@
 package com.cgi.ectp.orch;
 
+import com.cgi.ectp.orch.dto.CredentialDTO;
 import com.cgi.ectp.orch.dto.OwnerDTO;
 import com.cgi.ectp.orch.client.OwnerClient;
 import com.cgi.ectp.orch.service.AuthService;
@@ -20,8 +21,8 @@ public class Controller{
     @Autowired private AuthService authService;
 
     @PostMapping("/auth/authenticate")
-    public String authenticate() {
-        return authService.authenticate();
+    public String authenticate(@RequestBody final CredentialDTO pCredentialDTO) {
+        return authService.authenticate(pCredentialDTO);
     }
 
     @PostMapping("/auth/logout")
@@ -32,15 +33,17 @@ public class Controller{
     @GetMapping("/owner/{ownerId}")
     public OwnerDTO getOwner(
             @PathVariable("ownerId") final int pOwnerId,
-            @RequestHeader("Authorization") final String pToken) {
-
+            @RequestHeader("Authorization") final String pToken
+    ) {
         httpService.validateToken(pToken);
+
         return httpService.propagateFeignException(() -> ownerClient.read(pToken, pOwnerId));
     }
 
     @GetMapping("/")
     public Collection<OwnerDTO> getAll(@RequestHeader("Authorization") final String pToken) {
         httpService.validateToken(pToken);
+
         return httpService.propagateFeignException(() -> ownerClient.getAll(pToken));
     }
 }

@@ -1,11 +1,14 @@
 package com.cgi.glk.ectp.auth;
 
+import com.cgi.glk.ectp.auth.dto.CredentialDTO;
 import com.cgi.glk.ectp.auth.service.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/auth/v1")
@@ -15,8 +18,9 @@ public class Controller {
     @Autowired private JWTService jwtService;
 
     @PostMapping("/authenticate")
-    public String authenticate() {
-        return jwtService.forge();
+    public String authenticate(@RequestBody final CredentialDTO pCredentialDTO) {
+        return  jwtService.forge(pCredentialDTO)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN));
     }
 
     @PostMapping("/validate")

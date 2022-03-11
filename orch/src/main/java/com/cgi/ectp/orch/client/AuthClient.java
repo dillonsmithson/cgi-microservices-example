@@ -1,5 +1,6 @@
 package com.cgi.ectp.orch.client;
 
+import com.cgi.ectp.orch.dto.CredentialDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface AuthClient {
 
     @PostMapping("/authenticate")
-    public String authenticate();
-
+    public String authenticate(@RequestBody CredentialDTO pCredentialDTO);
+    
     @PostMapping("/validate")
     public boolean validate(@RequestBody final String pJWT);
 

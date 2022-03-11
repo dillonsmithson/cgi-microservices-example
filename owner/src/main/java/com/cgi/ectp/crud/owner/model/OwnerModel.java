@@ -39,5 +39,4 @@ public class OwnerModel {
 
     @Column(name = "owner_updated_by")
     private String updatedBy;
-
 }
