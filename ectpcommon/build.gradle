@@ -20,7 +20,6 @@ repositories {
 dependencies {
     implementation 'com.auth0:java-jwt:3.18.1'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.0.6'
-    implementation 'com.auth0:java-jwt:3.18.1'
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 }
