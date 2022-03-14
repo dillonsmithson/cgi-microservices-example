@@ -27,27 +27,31 @@ public class AuthService {
     }
 
     public boolean validateToken(final String pJWT) {
-        log.info("Ready to validate");
         if (!pJWT.startsWith(BEARER)) {
             return false;
         }
 
         val token = fetchToken(pJWT);
 
-        try {
-            jwtVerifier.verify(token);
-        } catch (final JWTVerificationException e) {
-            System.out.println(token);
-            log.warn("Invalid JWT", e);
-            return false;
-        }
-
-        return true;
+        log.info("Preparing to validate {}", token);
+        return validate(token);
     }
 
     public boolean verifyToken(final String pToken) {
         log.info("Verifying token {}", pToken);
         return authClient.validate(fetchToken(pToken));
+    }
+
+    public boolean validate(final String pJWT) {
+        try {
+            jwtVerifier.verify(pJWT);
+        } catch (final JWTVerificationException e) {
+            System.out.println(pJWT);
+            log.warn("Invalid JWT", e);
+            return false;
+        }
+
+        return true;
     }
 
     public String fetchToken(final String pToken) {
