@@ -1,10 +1,10 @@
 package com.cgi.ectp.orch;
 
-import com.cgi.ectp.orch.dto.CredentialDTO;
-import com.cgi.ectp.orch.dto.OwnerDTO;
-import com.cgi.ectp.orch.client.OwnerClient;
-import com.cgi.ectp.orch.service.AuthService;
-import com.cgi.ectp.orch.service.HttpService;
+import com.cgi.glk.ectp.common.client.OwnerClient;
+import com.cgi.glk.ectp.common.dto.CredentialDTO;
+import com.cgi.glk.ectp.common.dto.OwnerDTO;
+import com.cgi.glk.ectp.common.service.AuthService;
+import com.cgi.glk.ectp.common.service.HttpService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

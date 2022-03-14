@@ -2,7 +2,7 @@ package com.cgi.ectp.crud.owner;
 
 import com.cgi.ectp.crud.owner.dao.OwnerRepository;
 import com.cgi.ectp.crud.owner.dto.OwnerDTO;
-import com.cgi.ectp.crud.owner.service.HttpService;
+import com.cgi.glk.ectp.common.service.HttpService;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class Controller {
             @RequestHeader(name = "Authorization", required = false) final Optional<String> pToken,
             @RequestBody final OwnerDTO pDTO
     ) {
-        httpService.validateToken(pToken);
+        httpService.verifyToken(pToken);
 
         val model = pDTO.toModel(Integer.MIN_VALUE);
         model.setCreated(new Date());
@@ -45,7 +45,7 @@ public class Controller {
         @RequestHeader(value = "Authorization", required = false) final Optional<String> pToken,
         @PathVariable("id") final int pId
     ) {
-        httpService.validateToken(pToken);
+        httpService.verifyToken(pToken);
 
         return ownerRepository.findById(pId)
                 .map(OwnerDTO::of)
@@ -57,7 +57,7 @@ public class Controller {
             @RequestHeader(name = "Authorization", required = false) final Optional<String> pToken,
             @PathVariable("id") final int pId, @RequestBody final OwnerDTO pDTO
     ){
-        httpService.validateToken(pToken);
+        httpService.verifyToken(pToken);
 
         val cache = ownerRepository.findById(pId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -78,7 +78,7 @@ public class Controller {
             @RequestHeader(name = "Authorization", required = false) final Optional<String> pToken,
             @PathVariable("id") final int pId, @RequestBody final OwnerDTO pDTO
     ){
-        httpService.validateToken(pToken);
+        httpService.verifyToken(pToken);
 
         val cache = ownerRepository.findById(pId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -99,7 +99,7 @@ public class Controller {
             @RequestHeader(name = "Authorization", required = false) final Optional<String> pToken,
             @PathVariable("id") final int pId
     ) {
-        httpService.validateToken(pToken);
+        httpService.verifyToken(pToken);
 
         if (!ownerRepository.existsById(pId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -112,7 +112,7 @@ public class Controller {
     public Collection<OwnerDTO> getAll(
             @RequestHeader(name = "Authorization", required = false) final Optional<String> pToken
     ) {
-        httpService.validateToken(pToken);
+        httpService.verifyToken(pToken);
 
         return StreamSupport
                 .stream(ownerRepository.findAll().spliterator(), false)
@@ -125,7 +125,7 @@ public class Controller {
             @RequestHeader(name = "Authorization", required = false) final Optional<String> pToken,
             @RequestParam("name") final String pName
     ) {
-        httpService.validateToken(pToken);
+        httpService.verifyToken(pToken);
 
         return ownerRepository.byName(pName)
                 .stream()
@@ -138,7 +138,7 @@ public class Controller {
             @RequestHeader(name = "Authorization", required = false) final Optional<String> pToken,
             @PathVariable("id") final int pId
     ) {
-        httpService.validateToken(pToken);
+        httpService.verifyToken(pToken);
 
         ownerRepository.findById(pId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
