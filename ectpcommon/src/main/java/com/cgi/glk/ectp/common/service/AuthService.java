@@ -7,15 +7,14 @@ import com.cgi.glk.ectp.common.dto.CredentialDTO;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @Slf4j
 public class AuthService {
 
     @Autowired private AuthClient authClient;
+    @Autowired private JWTVerifier jwtVerifier;
 
     private static final String BEARER = "Bearer ";
 
@@ -34,6 +33,14 @@ public class AuthService {
         }
 
         val token = fetchToken(pJWT);
+
+        try {
+            jwtVerifier.verify(token);
+        } catch (final JWTVerificationException e) {
+            System.out.println(token);
+            log.warn("Invalid JWT", e);
+            return false;
+        }
 
         return true;
     }

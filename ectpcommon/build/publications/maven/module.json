@@ -27,11 +27,11 @@
         {
           "name": "ectpcommon-1.0.jar",
           "url": "ectpcommon-1.0.jar",
-          "size": 9437,
-          "sha512": "ba1f42429b9b4a33560665d915324b6f8aa62e6dc49a941b08b116f7d42973fc537f1953a3f9dd9d180cf1335355278c09398ef1ab531c60cb8a80adaacefcee",
-          "sha256": "2797a1ee1859c7411356c0d5bcba67272b43f696ce8d09d8d4beff424cb4caa5",
-          "sha1": "cb7dfe098119cfd1cf0d69a5489a62323db7760d",
-          "md5": "4fca34df403cc4cef38392988e08630f"
+          "size": 9719,
+          "sha512": "a009ec4369dfcc9de51145cea30c5949b1c0dad0c4eba4a8d33da542b9d92d9187cf7f6307f2284fe064afa733059d84aecccfe60b32fbb95c2aa18743440b65",
+          "sha256": "92c486e0e0c2ac7db6b26e3212fdd529be2002a0f987a278f0cbad27956c1e48",
+          "sha1": "fc54a5f7d888900621ef254c80679e6a3d94847a",
+          "md5": "745d0ea38cdbe1916c706ac05322edc4"
         }
       ]
     },
@@ -64,11 +64,11 @@
         {
           "name": "ectpcommon-1.0.jar",
           "url": "ectpcommon-1.0.jar",
-          "size": 9437,
-          "sha512": "ba1f42429b9b4a33560665d915324b6f8aa62e6dc49a941b08b116f7d42973fc537f1953a3f9dd9d180cf1335355278c09398ef1ab531c60cb8a80adaacefcee",
-          "sha256": "2797a1ee1859c7411356c0d5bcba67272b43f696ce8d09d8d4beff424cb4caa5",
-          "sha1": "cb7dfe098119cfd1cf0d69a5489a62323db7760d",
-          "md5": "4fca34df403cc4cef38392988e08630f"
+          "size": 9719,
+          "sha512": "a009ec4369dfcc9de51145cea30c5949b1c0dad0c4eba4a8d33da542b9d92d9187cf7f6307f2284fe064afa733059d84aecccfe60b32fbb95c2aa18743440b65",
+          "sha256": "92c486e0e0c2ac7db6b26e3212fdd529be2002a0f987a278f0cbad27956c1e48",
+          "sha1": "fc54a5f7d888900621ef254c80679e6a3d94847a",
+          "md5": "745d0ea38cdbe1916c706ac05322edc4"
         }
       ]
     }
