@@ -1,0 +1,76 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.cgi.glk.ectp",
+    "module": "ectpcommon",
+    "version": "1.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "ectpcommon-1.0.jar",
+          "url": "ectpcommon-1.0.jar",
+          "size": 9437,
+          "sha512": "ba1f42429b9b4a33560665d915324b6f8aa62e6dc49a941b08b116f7d42973fc537f1953a3f9dd9d180cf1335355278c09398ef1ab531c60cb8a80adaacefcee",
+          "sha256": "2797a1ee1859c7411356c0d5bcba67272b43f696ce8d09d8d4beff424cb4caa5",
+          "sha1": "cb7dfe098119cfd1cf0d69a5489a62323db7760d",
+          "md5": "4fca34df403cc4cef38392988e08630f"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.auth0",
+          "module": "java-jwt",
+          "version": {
+            "requires": "3.18.1"
+          }
+        },
+        {
+          "group": "org.springframework.cloud",
+          "module": "spring-cloud-starter-openfeign",
+          "version": {
+            "requires": "3.0.6"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "ectpcommon-1.0.jar",
+          "url": "ectpcommon-1.0.jar",
+          "size": 9437,
+          "sha512": "ba1f42429b9b4a33560665d915324b6f8aa62e6dc49a941b08b116f7d42973fc537f1953a3f9dd9d180cf1335355278c09398ef1ab531c60cb8a80adaacefcee",
+          "sha256": "2797a1ee1859c7411356c0d5bcba67272b43f696ce8d09d8d4beff424cb4caa5",
+          "sha1": "cb7dfe098119cfd1cf0d69a5489a62323db7760d",
+          "md5": "4fca34df403cc4cef38392988e08630f"
+        }
+      ]
+    }
+  ]
+}

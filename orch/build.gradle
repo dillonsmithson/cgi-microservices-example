@@ -15,10 +15,13 @@ configurations {
 }
 
 repositories {
+	mavenLocal()
 	mavenCentral()
 }
 
 dependencies {
+
+	implementation 'com.cgi.glk.ectp:ectpcommon:1.0'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.auth0:java-jwt:3.18.1'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.0.6'
