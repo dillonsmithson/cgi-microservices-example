@@ -3,10 +3,11 @@ package com.cgi.glk.ectp.auth.service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.cgi.glk.ectp.auth.Properties;
-import com.cgi.glk.ectp.auth.dto.CredentialDTO;
 import com.cgi.glk.ectp.auth.model.JWTModel;
 import com.cgi.glk.ectp.auth.repository.JWTRepository;
+import com.cgi.glk.ectp.common.Properties;
+import com.cgi.glk.ectp.common.dto.CredentialDTO;
+import com.cgi.glk.ectp.common.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.util.UUID;
 public class JWTService {
     @Autowired private Properties properties;
     @Autowired private JWTRepository jwtRepository;
+    @Autowired private AuthService authService;
 
     private final Map<String, String> credentials = Map.of( "Jeff",     "jefe",
                                                             "Alan",     "nate",
@@ -46,7 +48,7 @@ public class JWTService {
                     .withClaim("username", pCredentialDTO.getUsername())
                     .withExpiresAt(Date.from(LocalDateTime.now().plusMinutes(15L).atZone(ZoneId.systemDefault()).toInstant()))
                     .withJWTId(UUID.randomUUID().toString())
-                    .sign(Algorithm.HMAC256(properties.getSecret()));
+                    .sign(Algorithm.HMAC256(properties.getJwtSecret()));
         try {
             jwtRepository.deleteById(pCredentialDTO.getUsername());
         } catch (final Exception e) {
@@ -81,7 +83,7 @@ public class JWTService {
     }
 
     private boolean verify(final String pJWT) {
-        val verifier = JWT.require(Algorithm.HMAC256(properties.getSecret()))
+        val verifier = JWT.require(Algorithm.HMAC256(properties.getJwtSecret()))
                 .withIssuer("com.cgi.glk.ectp")
                 .build();
 

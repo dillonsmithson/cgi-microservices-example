@@ -1,7 +1,8 @@
 package com.cgi.glk.ectp.auth;
 
-import com.cgi.glk.ectp.auth.dto.CredentialDTO;
 import com.cgi.glk.ectp.auth.service.JWTService;
+import com.cgi.glk.ectp.common.Properties;
+import com.cgi.glk.ectp.common.dto.CredentialDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
