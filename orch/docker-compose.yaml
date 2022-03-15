@@ -1,0 +1,16 @@
+services:
+  ownercrud:
+    image: ownercrud
+    ports:
+      - "18080:8080"
+  auth:
+    image: auth
+    ports:
+      - "18081:8080"
+  orchestrate:
+    image: orchestrate
+    depends_on:
+    - "ownercrud"
+    - "auth"
+    ports:
+      - "28080:8080"
