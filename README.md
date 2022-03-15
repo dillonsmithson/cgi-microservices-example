@@ -4,6 +4,10 @@
 
 - [About](#about)
 - [Getting Started](#getting_started)
+- [Prerequisties](#prereq)
+- [Setting up Database](#database_setup)
+- [Launching with localhost](#localhost_launch)
+- [Launching with Docker](#docker_launch)
 
 ## About <a name = "about"></a>
 
@@ -13,7 +17,7 @@ CGI Early Career Training Program Microservices project for Java Training Track.
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Prerequisites
+### Prerequisites<a name = "prereq"></a>
 
 There are a few things you'll need to get started.
 - Java 11 - (I used [Zulu 11](https://www.azul.com/downloads/?version=java-11-lts&package=jdk))
@@ -47,7 +51,7 @@ Use the instructions for your system from Docker to install Docker Desktop onto 
 
 Here's how to get the microservices running via localhost and docker containers. 
 
-#### Setting up Database:
+#### Setting up Database: <a name = "database_setup"></a>
 Start by opening the program pgAdmin. Login in using the password (should be "postgres" if you followed instructions earlier.)
 - Right click on "Databases" > "Create" > "Database..."
 - Name the databse "pet"
@@ -57,7 +61,7 @@ Start by opening the program pgAdmin. Login in using the password (should be "po
 Now, using the SQL file provided in the project files, open the SQL file and copy the contents of the file to your clipboard. 
 Back in pgAdmin, drop down the Databases and right click on "pet". Select "Query Tool" and paste the SQL. Click the run button in the Top right corner of the window and the tables will be created for the pet database. 
 
-#### Launching the Microservices (using localhost)
+### Launching the Microservices (using localhost) <a name = "localhost_launch"></a>
 Open each Microservice project in IntelliJ including the new "ectpcommon" library.
 
 <b>Setting up common library</b><br/>
@@ -87,7 +91,7 @@ owner crud runs on localhost 18080
 auth runs on localhost:18081
 ```
 
-#### Launching the Microservices using Docker Compose
+### Launching the Microservices using Docker Compose <a name = "docker_launch"></a>
 Open each Microservice project in IntelliJ including the new "ectpcommon" library.
 
 <b>Setting up common library</b><br/>
