@@ -35,13 +35,16 @@ public class JWTService {
         val _password = Optional.ofNullable(credentials.get(pCredentialDTO.getUsername()));
 
         if (_password.isEmpty()) {
+            log.info("No password found");
             return Optional.empty();
         }
 
         if(!_password.get().equals(pCredentialDTO.getPassword())) {
+            log.info("Password doesn't match");
             return Optional.empty();
         }
 
+        log.info("Creating new JWT...");
         val jwt = JWT.create()
                     .withIssuer("com.cgi.glk.ectp")
                     .withClaim("ownerPriv", "CRUD")
@@ -50,10 +53,13 @@ public class JWTService {
                     .withJWTId(UUID.randomUUID().toString())
                     .sign(Algorithm.HMAC256(properties.getJwtSecret()));
         try {
+            log.info("Looking for existing JWT in database");
             jwtRepository.deleteById(pCredentialDTO.getUsername());
         } catch (final Exception e) {
             log.info("When deleting", e);
         }
+
+        log.info("Sending JWT to database.");
         jwtRepository.save(JWTModel.of(pCredentialDTO.getUsername(), jwt));
 
         return Optional.ofNullable(jwt); // This may change.
@@ -61,9 +67,11 @@ public class JWTService {
 
     public boolean validate(final String pJWT) {
         if (!verify(pJWT)){
+            log.warn("Could not verify JWT");
             return false;
         }
 
+        log.info("Validating JWT");
         return jwtRepository.byHash(pJWT.hashCode()).stream()
                 .map(m -> m.getJwt())
                 .anyMatch(j -> j.equals(pJWT));
@@ -72,6 +80,7 @@ public class JWTService {
     public void delete(final String pJWT) {
         if (validate(pJWT)) {
             try {
+                log.info("Attempting to delete JWT entry");
                 jwtRepository.byHash(pJWT.hashCode()).stream()
                         .filter(m -> m.getJwt().equals(pJWT))
                         .map(m -> m.getUsername())
@@ -83,6 +92,7 @@ public class JWTService {
     }
 
     private boolean verify(final String pJWT) {
+        log.info("Attempting to verify signature of JWT");
         val verifier = JWT.require(Algorithm.HMAC256(properties.getJwtSecret()))
                 .withIssuer("com.cgi.glk.ectp")
                 .build();

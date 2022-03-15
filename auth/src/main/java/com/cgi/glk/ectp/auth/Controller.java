@@ -3,6 +3,7 @@ package com.cgi.glk.ectp.auth;
 import com.cgi.glk.ectp.auth.service.JWTService;
 import com.cgi.glk.ectp.common.Properties;
 import com.cgi.glk.ectp.common.dto.CredentialDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/auth/v1")
+@Slf4j
 public class Controller {
 
     @Autowired private Properties properties;

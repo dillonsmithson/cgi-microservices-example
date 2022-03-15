@@ -29,8 +29,10 @@ public class Controller {
             @RequestHeader(name = "Authorization", required = false) final Optional<String> pToken,
             @RequestBody final OwnerDTO pDTO
     ) {
+        log.info("Verifying token");
         httpService.verifyToken(pToken);
 
+        log.info("Creating new owner model.");
         val model = pDTO.toModel(Integer.MIN_VALUE);
         model.setCreated(new Date());
         model.setCreatedBy("SYS");
@@ -45,8 +47,10 @@ public class Controller {
         @RequestHeader(value = "Authorization", required = false) final Optional<String> pToken,
         @PathVariable("id") final int pId
     ) {
+        log.info("Verifying token");
         httpService.verifyToken(pToken);
 
+        log.info("Collecting owners from database");
         return ownerRepository.findById(pId)
                 .map(OwnerDTO::of)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
