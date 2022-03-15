@@ -22,11 +22,13 @@ public class Controller{
 
     @PostMapping("/auth/authenticate")
     public String authenticate(@RequestBody final CredentialDTO pCredentialDTO) {
+        log.info("Sending Credential DTO to authService to authenticate");
         return authService.authenticate(pCredentialDTO);
     }
 
     @PostMapping("/auth/logout")
     public void logout(@RequestBody final String pJWT) {
+        log.info("Sending JWT to log user out.");
         authService.logout(pJWT);
     }
 
@@ -35,13 +37,15 @@ public class Controller{
             @PathVariable("ownerId") final int pOwnerId,
             @RequestHeader("Authorization") final String pToken
     ) {
+        log.info("Sending token to be validated.");
         httpService.validateToken(pToken);
 
         return httpService.propagateFeignException(() -> ownerClient.read(pToken, pOwnerId));
     }
 
-    @GetMapping("/")
+    @GetMapping("/owner/")
     public Collection<OwnerDTO> getAll(@RequestHeader("Authorization") final String pToken) {
+        log.info("Sending token to be validated.");
         httpService.validateToken(pToken);
 
         return httpService.propagateFeignException(() -> ownerClient.getAll(pToken));
