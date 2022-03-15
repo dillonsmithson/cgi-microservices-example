@@ -60,11 +60,11 @@ Back in pgAdmin, drop down the Databases and right click on "pet". Select "Query
 #### Launching the Microservices (using localhost)
 Open each Microservice project in IntelliJ including the new "ectpcommon" library.
 
-<b>Setting up common library</b>
+<b>Setting up common library</b><br/>
 In "ectpcommon" under the Gradle tab, drill down "Tasks">"publishing">"publishToMavenLocal"
 This should set up the common library.
 
-<b>Setting server ports</b>
+<b>Setting server ports</b><br/>
 You'll need to make sure that in the ```application.properties``` of the auth and owner microservices are set up to include the ```server.port = xxxxx``` property. Without this, each service will default to running on port 8080, which will break the application.
 
 For Owner CRUD copy and paste this property into the ```application.properties``` file
@@ -77,7 +77,7 @@ For Auth copy and paste this property into the ```application.properties``` file
 server.port = 18081
 ```
 
-<b>Launch each microservice</b>
+<b>Launch each microservice</b><br/>
 Once the library is running, go to each microservice and under the Gradle Tab, drill down "Tasks">"application">"bootrun"
 This should start running each microservice.
 
@@ -90,7 +90,7 @@ auth runs on localhost:18081
 #### Launching the Microservices using Docker Compose
 Open each Microservice project in IntelliJ including the new "ectpcommon" library.
 
-<b>Setting up common library</b>
+<b>Setting up common library</b><br/>
 In "ectpcommon" under the Gradle tab, drill down "Tasks">"publishing">"publishToMavenLocal"
 This should set up the common library.
 
@@ -98,7 +98,7 @@ The master branch should have the most up-to-date docker images, so you won't ha
 
 <b><i>Also make sure that you do not have the ```server.port``` property in any of your application.properties! This will break the application</b></i>
 
-<b>Launching</b>
+<b>Launching</b><br/>
 <i>Make sure that you have pgAdmin and Docker Desktop both running on your machine before running the following command.</i>
 
 In the "Orch" microservice, open a terminal and type ```docker-compose up``` and the project should start deploying to docker. The microservices should be running after this.
