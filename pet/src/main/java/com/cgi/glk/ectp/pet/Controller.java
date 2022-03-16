@@ -9,6 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 @RestController
 @RequestMapping("pet/v1")
 @Slf4j
@@ -32,5 +36,12 @@ public class Controller {
         return petRepository.findById(pPetId)
                 .map(p -> PetDTO.of(p))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/")
+    public Collection<PetDTO> getAll() {
+        return StreamSupport.stream(petRepository.findAll().spliterator(), false)
+                .map(p -> PetDTO.of(p))
+                .collect(Collectors.toList());
     }
 }
