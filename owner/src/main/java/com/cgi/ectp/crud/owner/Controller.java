@@ -25,12 +25,12 @@ public class Controller {
     @Autowired private HttpService httpService;
 
     @PostMapping
-
     public OwnerDTO create(
             @RequestHeader(value = "Authorization", required = false) final Optional<String> pToken,
             @RequestBody final OwnerDTO pDTO
     ) {
         log.info("in Owner Controller - create");
+        httpService.verifyToken(pToken);
 
         val model = pDTO.toModel(Integer.MIN_VALUE); //save as something that isn't already in the database
         model.setCreated(new Date());
