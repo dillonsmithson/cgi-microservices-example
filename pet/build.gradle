@@ -30,3 +30,9 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 }
 
+task buildDockerImage(type:Exec) {
+	workingDir "$projectDir"
+	commandLine "docker", "build", "-t" , "pet", "."
+}
+
+buildDockerImage.dependsOn bootJar

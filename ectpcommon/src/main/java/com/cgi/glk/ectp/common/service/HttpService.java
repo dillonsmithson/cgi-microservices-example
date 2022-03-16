@@ -34,12 +34,12 @@ public class HttpService {
     }
 
 
-    public static <T> T propagateFeignException(final Supplier<T> pSupplier) {
+    public <T> T propagateFeignException(final Supplier<T> pSupplier) {
         log.info("HttpService in library - propagateFeignException");
         try {
             return pSupplier.get();
         } catch (final FeignException e) {
-            //log.info("Caught", e);
+            log.info("Caught", e);
             throw new ResponseStatusException(HttpStatus.valueOf(e.status()));
         }
     }
