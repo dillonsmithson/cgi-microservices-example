@@ -49,4 +49,19 @@ public class PetDTO {
 
         return model;
     }
+
+    public PetModel toModel(final PetModel pPetModel) {
+        val model = new PetModel();
+        model.setId(pPetModel.getId());
+        model.setName(getName());
+        model.setOwnerId(getOwnerId());
+        model.setType(getType());
+        model.setBreed(getBreed());
+        model.setGender(getBreed());
+        model.setGender(getGender());
+        model.setColor(getColor());
+        model.setWeight(getWeight());
+
+        return model;
+    }
 }

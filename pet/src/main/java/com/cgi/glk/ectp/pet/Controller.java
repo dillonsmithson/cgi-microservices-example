@@ -44,4 +44,29 @@ public class Controller {
                 .map(p -> PetDTO.of(p))
                 .collect(Collectors.toList());
     }
+
+    @DeleteMapping("/{petId}")
+    public void delete(@PathVariable("petId") final int pPetId) {
+        if(!petRepository.existsById(pPetId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        petRepository.deleteById(pPetId);
+    }
+
+    @PatchMapping("/{id}")
+    public PetDTO update(
+            @PathVariable("id") final int pId,
+            @RequestBody final PetDTO pPetDTO
+    ) {
+        val cache = petRepository.findById(pId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        //Not checking whether there are updates here. 
+
+        val model = pPetDTO.toModel(cache);
+        val response = petRepository.save(model);
+
+        return PetDTO.of(response);
+    }
 }
