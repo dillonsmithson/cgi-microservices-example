@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.val;
 
 import java.util.Date;
 
@@ -34,5 +35,18 @@ public class PetDTO {
     public static PetDTO of(final PetModel pPetModel) {
         return new PetDTO(pPetModel.getId(), pPetModel.getName(), pPetModel.getOwnerId(), pPetModel.getType(), pPetModel.getBreed(), pPetModel.getGender(),
                 pPetModel.getDob(), pPetModel.getColor(), pPetModel.getWeight());
+    }
+
+    public PetModel toModel(final int pId) {
+        val model = new PetModel();
+        model.setId(pId);
+        model.setName(getName());
+        model.setOwnerId(getOwnerId());
+        model.setType(getType());
+        model.setBreed(getBreed());
+        model.setGender(getGender());
+        model.setColor(getColor());
+
+        return model;
     }
 }
