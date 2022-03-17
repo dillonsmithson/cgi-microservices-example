@@ -113,4 +113,15 @@ public class Controller {
                 .map(PetDTO::of)
                 .collect(Collectors.toList());
     }
+
+    @GetMapping("/byOwner/{ownerId}")
+    public Collection<PetDTO> byOwner(
+            @RequestHeader(value = "Authorization", required = false) final Optional<String> pToken,
+            @PathVariable("ownerId") final Integer ownerId
+    ) {
+        return petRepository.byOwner(ownerId)
+                .stream()
+                .map(m -> PetDTO.of(m))
+                .collect(Collectors.toList());
+    }
 }

@@ -10,9 +10,9 @@ import java.util.List;
 @Repository
 public interface PetRepository extends CrudRepository<PetModel, Integer> {
 
-    @Query( value = "SELECT * FROM pet WHERE (pet_name = :pName)",
+    @Query( value = "SELECT * FROM pet WHERE (pet_owner_id = :pOwnerId)",
             nativeQuery = true)
-    List<PetModel> byName(final String pName);
+    List<PetModel> byOwner(final Integer pOwnerId);
 }
 
 
