@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -93,6 +94,24 @@ public class Controller {
         }
 
         petRepository.deleteById(pPetId);
+    }
+
+    @GetMapping("/byOwner/{ownerId}")
+    public List<PetDTO> byOwner(
+            @RequestHeader(value = "Authorization", required = false) final Optional<String> pToken,
+            @PathVariable("ownerId") final int pOwnerId
+    ) {
+        httpService.verifyToken(pToken);
+
+        //add a catch for when no pets have the correct owner id
+        if (petRepository.byOwner(pOwnerId).size() == 0) {
+            //throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            return null;
+        }
+
+        return petRepository.byOwner(pOwnerId).stream()
+                .map(o -> PetDTO.of(o))
+                .collect(Collectors.toList());
     }
 
 }

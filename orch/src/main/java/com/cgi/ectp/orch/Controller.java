@@ -3,16 +3,20 @@ package com.cgi.ectp.orch;
 import com.cgi.glk.ectp.common.client.OwnerClient;
 import com.cgi.glk.ectp.common.client.PetClient;
 import com.cgi.glk.ectp.common.dto.CredentialDTO;
+import com.cgi.glk.ectp.common.dto.OwnerAndPetDTO;
 import com.cgi.glk.ectp.common.dto.OwnerDTO;
 import com.cgi.glk.ectp.common.dto.PetDTO;
 import com.cgi.glk.ectp.common.service.AuthService;
 import com.cgi.glk.ectp.common.service.HttpService;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/orchestrate/v1")
@@ -71,6 +75,57 @@ public class Controller {
 
         return httpService.propagateFeignException(() -> petClient.getAll(pToken));
     }
+
+    @GetMapping("/ownerAndPets/{ownerId}")
+    public OwnerAndPetDTO getOwnerAndPet(@RequestHeader("Authorization") final String pToken,
+                                         @PathVariable("ownerId") final int pOwnerId
+    ) {
+        httpService.validateToken(pToken);
+
+        return new OwnerAndPetDTO(
+                httpService.propagateFeignException(() -> ownerClient.getOwner(pToken, pOwnerId)),
+                httpService.propagateFeignException(() -> petClient.byOwner(pToken, pOwnerId))
+        );
+
+    }
+
+
+    @GetMapping("/ownersAndPets/")
+    public List<OwnerAndPetDTO> getAllOwnersAndPets(@RequestHeader("Authorization") final String pToken) {
+
+        httpService.validateToken(pToken);
+
+        /*
+        List<OwnerDTO> allOwners = ownerClient.getAll(pToken);
+        List<OwnerAndPetDTO> allOwnersAndPets = new ArrayList<>();
+
+        log.info("allOwners {}", allOwners.toString());
+
+        for (OwnerDTO temp: allOwners) {
+            log.info("temp {}", temp.toString());
+            log.info("allOwners {}", allOwners.toString());
+            allOwnersAndPets.add(getOwnerAndPet(pToken, temp.getId()));
+        }
+
+        return allOwnersAndPets;
+        */
+
+        //another try. This is good??
+        return ownerClient.getAll(pToken).stream()
+                .map(oDTO -> OwnerAndPetDTO.of(oDTO, petClient.byOwner(pToken, oDTO.getId())))
+                .collect(Collectors.toList());
+
+
+        /*
+      ownerClient.getAll(pToken)
+                .forEach(o -> System.out.println(petClient.byOwner(pToken, o.getId())));
+
+      return null;
+         */
+    }
+
+
+
     //graveyard from my modifications from earlier
     @PostMapping("/adduser")
     public void addUser(@RequestBody CredentialDTO pDTO) {
