@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @RestController
-@RequestMapping("pet/v1")
+@RequestMapping("/pet/v1")
 @Slf4j
 public class Controller {
 
@@ -59,20 +59,6 @@ public class Controller {
                 .collect(Collectors.toList());
     }
 
-    @DeleteMapping("/{petId}")
-    public void delete(
-            @RequestHeader(value = "Authorization", required = false) final Optional<String> pToken,
-            @PathVariable("petId") final int pPetId
-    ) {
-        httpService.verifyToken(pToken);
-
-        if(!petRepository.existsById(pPetId)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-
-        petRepository.deleteById(pPetId);
-    }
-
     @PatchMapping("/{id}")
     public PetDTO update(
             @RequestHeader(value = "Authorization", required = false) final Optional<String> pToken,
@@ -85,10 +71,28 @@ public class Controller {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         //Not checking whether there are updates here.
+        if (!pPetDTO.hasUpdates()) {
+            throw new ResponseStatusException(HttpStatus.NOT_MODIFIED);
+        }
 
         val model = pPetDTO.toModel(cache);
         val response = petRepository.save(model);
 
         return PetDTO.of(response);
     }
+
+    @DeleteMapping("/{petId}")
+    public void delete(
+            @RequestHeader(value = "Authorization", required = false) final Optional<String> pToken,
+            @PathVariable("petId") final int pPetId
+    ) {
+        httpService.verifyToken(pToken);
+
+        if (!petRepository.existsById(pPetId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        petRepository.deleteById(pPetId);
+    }
+
 }

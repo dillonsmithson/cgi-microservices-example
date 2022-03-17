@@ -23,7 +23,7 @@ public class PetModel {
     private String name;
 
     @Column(name = "pet_owner_id")
-    private int ownerId;
+    private Integer ownerId;
 
     @Column(name = "pet_type")
     private String type;
@@ -41,6 +41,6 @@ public class PetModel {
     private String color;
 
     @Column(name = "pet_weight")
-    private double weight;
+    private Double weight;
 
 }
