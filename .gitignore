@@ -1,8 +1,12 @@
 build/
+**/build/
 gradle/
+**/gradle/
 .gradle/
+**/.gradle/
 .idea/
 ./idea/
+**/.idea/
 out/
 
 gradlew
