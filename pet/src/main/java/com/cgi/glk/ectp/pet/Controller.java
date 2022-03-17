@@ -40,6 +40,17 @@ public class Controller {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @PutMapping("/{id}")
+    public PetDTO replace(@PathVariable("id") final int pId, @RequestBody final PetDTO pDTO) {
+        val cache = petRepository.findById(pId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        val model = pDTO.toModel(pId);
+        val response = petRepository.save(model);
+        log.info("Updated row: {}", response);
+        return PetDTO.of(response);
+    }
+
     @PatchMapping("/{id}")
     public PetDTO update(@PathVariable("id") final int pId, @RequestBody final PetDTO pDTO) {
         val cache = petRepository.findById(pId)
@@ -50,7 +61,6 @@ public class Controller {
         }
 
         val model = pDTO.toModel(cache);
-
         val response = petRepository.save(model);
         log.info("Updated row: {}", response);
         return PetDTO.of(response);

@@ -24,7 +24,7 @@ public class PetModel {
     private String name;
 
     @Column(name = "pet_owner_id")
-    private int ownerId;
+    private Integer ownerId;
 
     @Column(name = "pet_type")
     private String type;
@@ -42,5 +42,17 @@ public class PetModel {
     private Date dob;
 
     @Column(name = "pet_current_weight")
-    private float currentWeight;
+    private Double currentWeight;
 }
+
+/*
+CREATE TABLE pet ( pet_id SERIAL PRIMARY KEY,
+				   pet_name TEXT NOT NULL,
+				   pet_owner_id INTEGER REFERENCES owner (owner_id),
+				   pet_type TEXT NOT NULL,
+				   pet_breed TEXT NOT NULL,
+				   pet_gender TEXT NOT NULL,
+				   pet_color TEXT NOT NULL,
+				   pet_dob DATE,
+				   pet_current_weight NUMERIC );
+ */

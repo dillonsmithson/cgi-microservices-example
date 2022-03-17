@@ -1,6 +1,5 @@
 package com.cgi.glk.ectp.pet.dto;
 
-import com.cgi.glk.ectp.common.dto.OwnerDTO;
 import com.cgi.glk.ectp.pet.model.PetModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -10,6 +9,8 @@ import lombok.val;
 
 import java.util.Date;
 
+import static com.cgi.glk.ectp.pet.Utils.coalesce;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +18,7 @@ public class PetDTO {
 
     private int id;
     private String name;
-    private int ownerId;
+    private Integer ownerId;
     private String type;
     private String breed;
     private String gender;
@@ -27,15 +28,20 @@ public class PetDTO {
     private Date dob;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private float currentWeight;
+    private Double currentWeight;
 
     public boolean hasUpdates() {
         return (
-                (getName()      != null)    || // or
-                (getType()      != null)    || // or
-                (getBreed()     != null)    || // or
-                (getGender()    != null)    || // or
-                (getColor()     != null)
+                coalesce(
+                        getName(),
+                        getOwnerId(),
+                        getType(),
+                        getBreed(),
+                        getGender(),
+                        getColor(),
+                        getDob(),
+                        getCurrentWeight()
+                ) != null
         );
     }
 
@@ -66,14 +72,16 @@ public class PetDTO {
 
     public PetModel toModel(final PetModel pModel) {
         val model = new PetModel();
+
         model.setId(pModel.getId());
         model.setOwnerId(pModel.getOwnerId());
 
-        model.setName(      (getName() == null)     ? pModel.getName() : getName());
-        model.setType(      (getType() == null)     ? pModel.getType() : getType());
-        model.setBreed(     (getBreed() == null)    ? pModel.getBreed() : getBreed());
-        model.setGender(    (getGender() == null)   ? pModel.getGender() : getGender());
-        model.setColor(     (getColor() == null)    ? pModel.getColor() : getColor());
+        model.setName(          coalesce(   getName(),             pModel.getName()             ));
+        model.setType(          coalesce(   getType(),             pModel.getType()             ));
+        model.setBreed(         coalesce(   getBreed(),            pModel.getBreed()            ));
+        model.setGender(        coalesce(   getGender(),           pModel.getGender()           ));
+        model.setColor(         coalesce(   getColor(),            pModel.getColor()            ));
+        model.setCurrentWeight( coalesce(   getCurrentWeight(),    pModel.getCurrentWeight()    ));
 
         return model;
     }
