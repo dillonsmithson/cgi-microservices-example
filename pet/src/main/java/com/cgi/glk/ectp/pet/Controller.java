@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -23,7 +24,13 @@ public class Controller {
     @Autowired private HttpService httpService;
 
     @PostMapping
-    public PetDTO create(@RequestBody final PetDTO pDTO) {
+    public PetDTO create(
+            @RequestHeader(name = "Authorization", required = false) final Optional<String> pToken,
+            @RequestBody final PetDTO pDTO
+    ) {
+        log.info("Verifying token");
+        httpService.verifyToken(pToken);
+
         var model = pDTO.toModel(Integer.MIN_VALUE);
 
         val response = petRepository.save(model);
@@ -32,7 +39,12 @@ public class Controller {
     }
 
     @GetMapping("/{id}")
-    public PetDTO read(@PathVariable("id") final int pId) {
+    public PetDTO read(
+            @RequestHeader(value = "Authorization", required = false) final Optional<String> pToken,
+            @PathVariable("id") final int pId
+    ) {
+        log.info("Verifying Token");
+        httpService.verifyToken(pToken);
 
         log.info("Collecting pet from database.");
         return petRepository.findById(pId)
@@ -41,7 +53,12 @@ public class Controller {
     }
 
     @PutMapping("/{id}")
-    public PetDTO replace(@PathVariable("id") final int pId, @RequestBody final PetDTO pDTO) {
+    public PetDTO replace(
+            @RequestHeader(value = "Authorization", required = false) final Optional<String> pToken,
+            @PathVariable("id") final int pId, @RequestBody final PetDTO pDTO
+    ) {
+        httpService.verifyToken(pToken);
+
         val cache = petRepository.findById(pId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
@@ -52,7 +69,12 @@ public class Controller {
     }
 
     @PatchMapping("/{id}")
-    public PetDTO update(@PathVariable("id") final int pId, @RequestBody final PetDTO pDTO) {
+    public PetDTO update(
+            @RequestHeader(value = "Authorization", required = false) final Optional<String> pToken,
+            @PathVariable("id") final int pId, @RequestBody final PetDTO pDTO
+    ) {
+        httpService.verifyToken(pToken);
+
         val cache = petRepository.findById(pId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
@@ -67,7 +89,12 @@ public class Controller {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") final int pId) {
+    public void delete(
+            @RequestHeader(value = "Authorization", required = false) final Optional<String> pToken,
+            @PathVariable("id") final int pId
+    ) {
+        httpService.verifyToken(pToken);
+
         if (!petRepository.existsById(pId)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
@@ -76,7 +103,11 @@ public class Controller {
     }
 
     @GetMapping("/")
-    public Collection<PetDTO> getAll() {
+    public Collection<PetDTO> getAll(
+            @RequestHeader(value = "Authorization", required = false) final Optional<String> pToken
+    ) {
+        httpService.verifyToken(pToken);
+
         return StreamSupport
                 .stream(petRepository.findAll().spliterator(), false)
                 .map(PetDTO::of)

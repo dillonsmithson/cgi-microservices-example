@@ -1,8 +1,10 @@
 package com.cgi.ectp.orch;
 
 import com.cgi.glk.ectp.common.client.OwnerClient;
+import com.cgi.glk.ectp.common.client.PetClient;
 import com.cgi.glk.ectp.common.dto.CredentialDTO;
 import com.cgi.glk.ectp.common.dto.OwnerDTO;
+import com.cgi.glk.ectp.common.dto.PetDTO;
 import com.cgi.glk.ectp.common.service.AuthService;
 import com.cgi.glk.ectp.common.service.HttpService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import java.util.Collection;
 public class Controller{
 
     @Autowired private OwnerClient ownerClient;
+    @Autowired private PetClient petClient;
     @Autowired private HttpService httpService;
     @Autowired private AuthService authService;
 
@@ -44,10 +47,26 @@ public class Controller{
     }
 
     @GetMapping("/owner/")
-    public Collection<OwnerDTO> getAll(@RequestHeader("Authorization") final String pToken) {
+    public Collection<OwnerDTO> getAllOwner(@RequestHeader("Authorization") final String pToken) {
         log.info("Sending token to be validated.");
         httpService.validateToken(pToken);
 
         return httpService.propagateFeignException(() -> ownerClient.getAll(pToken));
+    }
+
+    @GetMapping("/pet/{petId}")
+    public PetDTO getPet(
+            @RequestHeader("Authorization") final String pToken,
+            @PathVariable("petId") final int pPetId) {
+        httpService.validateToken(pToken);
+
+        return httpService.propagateFeignException(() -> petClient.read(pToken, pPetId));
+    }
+
+    @GetMapping("/pet/")
+    public Collection<PetDTO> getAllPet(@RequestHeader("Authorization") final String pToken) {
+        httpService.validateToken(pToken);
+
+        return httpService.propagateFeignException(() -> petClient.getAll(pToken));
     }
 }
