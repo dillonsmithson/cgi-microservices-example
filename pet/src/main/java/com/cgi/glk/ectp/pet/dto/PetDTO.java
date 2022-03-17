@@ -29,6 +29,16 @@ public class PetDTO {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private float currentWeight;
 
+    public boolean hasUpdates() {
+        return (
+                (getName()      != null)    || // or
+                (getType()      != null)    || // or
+                (getBreed()     != null)    || // or
+                (getGender()    != null)    || // or
+                (getColor()     != null)
+        );
+    }
+
     public static PetDTO of(final PetModel pModel) {
         return new PetDTO(  pModel.getId(),
                             pModel.getName(),
@@ -50,6 +60,20 @@ public class PetDTO {
         model.setBreed(getBreed());
         model.setGender(getGender());
         model.setColor(getColor());
+
+        return model;
+    }
+
+    public PetModel toModel(final PetModel pModel) {
+        val model = new PetModel();
+        model.setId(pModel.getId());
+        model.setOwnerId(pModel.getOwnerId());
+
+        model.setName(      (getName() == null)     ? pModel.getName() : getName());
+        model.setType(      (getType() == null)     ? pModel.getType() : getType());
+        model.setBreed(     (getBreed() == null)    ? pModel.getBreed() : getBreed());
+        model.setGender(    (getGender() == null)   ? pModel.getGender() : getGender());
+        model.setColor(     (getColor() == null)    ? pModel.getColor() : getColor());
 
         return model;
     }
