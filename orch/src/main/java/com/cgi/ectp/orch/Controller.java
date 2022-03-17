@@ -58,6 +58,7 @@ public class Controller{
     public PetDTO getPet(
             @RequestHeader("Authorization") final String pToken,
             @PathVariable("petId") final int pPetId) {
+        log.info("Getting pet");
         httpService.validateToken(pToken);
 
         return httpService.propagateFeignException(() -> petClient.read(pToken, pPetId));
@@ -65,6 +66,7 @@ public class Controller{
 
     @GetMapping("/pet/")
     public Collection<PetDTO> getAllPet(@RequestHeader("Authorization") final String pToken) {
+        log.info("Getting all pets");
         httpService.validateToken(pToken);
 
         return httpService.propagateFeignException(() -> petClient.getAll(pToken));
