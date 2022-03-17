@@ -1,5 +1,6 @@
 package com.cgi.glk.ectp.pet.model;
 
+import com.cgi.glk.ectp.common.dto.OwnerDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -31,7 +32,7 @@ public class PetModel {
     @Column(name = "pet_breed")
     private String breed;
 
-    @Column(name = "pet_breed")
+    @Column(name = "pet_gender")
     private String gender;
 
     @Column(name = "pet_color")
