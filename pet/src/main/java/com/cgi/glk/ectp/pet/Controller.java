@@ -103,12 +103,6 @@ public class Controller {
     ) {
         httpService.verifyToken(pToken);
 
-        //add a catch for when no pets have the correct owner id
-        if (petRepository.byOwner(pOwnerId).size() == 0) {
-            //throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-            return null;
-        }
-
         return petRepository.byOwner(pOwnerId).stream()
                 .map(o -> PetDTO.of(o))
                 .collect(Collectors.toList());

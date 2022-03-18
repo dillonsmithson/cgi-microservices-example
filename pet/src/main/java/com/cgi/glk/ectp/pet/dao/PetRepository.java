@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface PetRepository extends CrudRepository<PetModel, Integer> {
 
-    @Query( value = "SELECT * FROM pet WHERE pet_owner_id = :pOwnerId", nativeQuery = true)
+    @Query( value = "SELECT * FROM pet WHERE pet_owner_id = :pOwnerId ORDER BY pet_id ASC", nativeQuery = true)
     Collection<PetModel> byOwner(final Integer pOwnerId);
 }

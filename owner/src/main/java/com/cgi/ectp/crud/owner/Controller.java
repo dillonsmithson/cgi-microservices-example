@@ -120,7 +120,7 @@ public class Controller {
         log.info("in Owner Controller - getAll");
         httpService.verifyToken(pToken);
 
-        return StreamSupport.stream(ownerRepository.findAll().spliterator(), false)
+        return StreamSupport.stream(ownerRepository.findAllOrdered().spliterator(), false)
                 .map(m -> OwnerDTO.of(m))
                 .collect(Collectors.toList());
     }

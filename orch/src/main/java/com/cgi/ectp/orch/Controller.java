@@ -115,7 +115,6 @@ public class Controller {
                 .map(oDTO -> OwnerAndPetDTO.of(oDTO, petClient.byOwner(pToken, oDTO.getId())))
                 .collect(Collectors.toList());
 
-
         /*
       ownerClient.getAll(pToken)
                 .forEach(o -> System.out.println(petClient.byOwner(pToken, o.getId())));
