@@ -7,13 +7,10 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "of") //create factory method "of" and private all args constructor
 public class OwnerAndPetDTO {
 
     private OwnerDTO ownerDTO;
     private List<PetDTO> listOfPets;
 
-    public static OwnerAndPetDTO of(final OwnerDTO pOwnerDTO, final List<PetDTO> pListPet) {
-        return new OwnerAndPetDTO(pOwnerDTO, pListPet);
-    }
 }

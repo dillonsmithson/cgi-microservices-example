@@ -1,5 +1,6 @@
 package com.cgi.ectp.orch;
 
+import com.cgi.ectp.orch.service.OwnerService;
 import com.cgi.glk.ectp.common.client.OwnerClient;
 import com.cgi.glk.ectp.common.client.PetClient;
 import com.cgi.glk.ectp.common.dto.CredentialDTO;
@@ -27,6 +28,7 @@ public class Controller {
     @Autowired private PetClient petClient;
     @Autowired private HttpService httpService;
     @Autowired private AuthService authService;
+    @Autowired private OwnerService ownerService;
 
     @PostMapping("/auth/authenticate")
     public String authenticate(@RequestBody final CredentialDTO pCredentialDTO) {
@@ -82,11 +84,7 @@ public class Controller {
     ) {
         httpService.validateToken(pToken);
 
-        return new OwnerAndPetDTO(
-                httpService.propagateFeignException(() -> ownerClient.getOwner(pToken, pOwnerId)),
-                httpService.propagateFeignException(() -> petClient.byOwner(pToken, pOwnerId))
-        );
-
+        return httpService.propagateFeignException(() -> ownerService.getOwnerAndPets(pToken, pOwnerId));
     }
 
 
@@ -95,32 +93,7 @@ public class Controller {
 
         httpService.validateToken(pToken);
 
-        /*
-        List<OwnerDTO> allOwners = ownerClient.getAll(pToken);
-        List<OwnerAndPetDTO> allOwnersAndPets = new ArrayList<>();
-
-        log.info("allOwners {}", allOwners.toString());
-
-        for (OwnerDTO temp: allOwners) {
-            log.info("temp {}", temp.toString());
-            log.info("allOwners {}", allOwners.toString());
-            allOwnersAndPets.add(getOwnerAndPet(pToken, temp.getId()));
-        }
-
-        return allOwnersAndPets;
-        */
-
-        //another try. This is good??
-        return ownerClient.getAll(pToken).stream()
-                .map(oDTO -> OwnerAndPetDTO.of(oDTO, petClient.byOwner(pToken, oDTO.getId())))
-                .collect(Collectors.toList());
-
-        /*
-      ownerClient.getAll(pToken)
-                .forEach(o -> System.out.println(petClient.byOwner(pToken, o.getId())));
-
-      return null;
-         */
+        return httpService.propagateFeignException(() -> ownerService.getOwnersAndPets(pToken));
     }
 
 
